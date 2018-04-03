@@ -30,13 +30,13 @@ public class Principal {
 		}
 	}
 
-	public static void mostra(double individuos[][], int numeroBitX) {
+	public static void mostra(double individuos[][]) {
 		for (int i = 0; i < individuos.length; i++) {
 			for (int j = 0; j < individuos[0].length; j++) {
 				System.out.print(individuos[i][j] + " ");
-				if (j == (numeroBitX - 1)) {
+/*				if (j == (numeroBitX - 1)) {
 					System.out.print("| ");
-				}
+				}*/
 
 			}
 			System.out.println();
@@ -105,7 +105,7 @@ public class Principal {
 		for (int i = 0; i < roleta.length; i++) {
 			System.out.print(roleta[i] + " ");
 		}
-		System.out.println();
+		System.out.println("\n________________Selecionados________________");
 		for (int i = 0; i < indice.length; i++) {
 			rand2 = rand.nextDouble();
 			loop: for (int j = 0; j < roleta.length; j++) {
@@ -120,88 +120,82 @@ public class Principal {
 		return indice;
 	}
 
-	public static void crossover(int individuos[][], int[] indices, double probDoCrossover) {
+	public static int [][] crossover(int individuos[][], int[] indices, double probDoCrossover) {
+		System.out.println("__________________Crossover_________________");
 		int[][] individuosSelecionados = new int[indices.length][individuos[0].length];
 		// selecionados
 		for (int i = 0; i < individuosSelecionados.length; i++) {
 			individuosSelecionados[i] = individuos[indices[i]];
-		}
-		
-		int individuosRespostas[][] = new int[individuos.length][individuos[0].length];
-		int ponto = 0; // rand.nextInt(individuos[0].length-1)+1;
-		double prob = 0;
-		int linhaPai1 = 0;
-		int linhaPai2 = 1;
-		int f1[];
-		int f2[];
-		int aux = 0;
-		for (int i = 0; i < individuosRespostas.length / 2; i++) {
-			prob = rand.nextDouble();
-			if (prob <= probDoCrossover) {
-				aux = 0;
-				ponto = individuosRespostas.length/2; //(rand.nextInt(individuos[0].length - 2) + 1);
-				f1 = new int[individuosSelecionados[0].length];
-				f2 = new int[individuosSelecionados[0].length];
-				for (int j = 0; j < ponto; j++) {
-					f1[j] = individuosSelecionados[linhaPai1][j];
-					aux++;
-				}
-				for (int j = aux; j < individuosSelecionados.length; j++) {
-					f1[j] = individuosSelecionados[linhaPai2][j];
-				}
-				aux = 0;
-				for (int j = 0; j < ponto; j++) {
-					f2[j] = individuosSelecionados[linhaPai2][j];
-					aux++;
-				}
-				for (int j = aux; j < individuosSelecionados.length; j++) {
-					f2[j] = individuosSelecionados[linhaPai1][j];
-				}
-				individuosRespostas[linhaPai1] = f1;
-				individuosRespostas[linhaPai2] = f2;
-				linhaPai1++;
-				linhaPai2++;
-				
-			} else {
-				individuosRespostas[linhaPai1] = individuosSelecionados[linhaPai1];
-				
-				individuosRespostas[linhaPai2] = individuosSelecionados[linhaPai2];
-				
-				for (int j = 0; j < individuosSelecionados[0].length; j++) {
-					System.out.print(individuosSelecionados[i][j] + "");
-				}
-				System.out.print("    ");
-				for (int j = 0; j < individuosRespostas[0].length; j++) {
-					System.out.print(individuosRespostas[i][j] + "");
-				}
-				System.out.println();
-				linhaPai2++;
-				linhaPai1++;
+			System.out.print("indice --> "+indices[i]+" individuo Selecionado --> ");
+			for (int j = 0; j < individuosSelecionados.length; j++) {
+				System.out.print(" "+individuosSelecionados[i][j]);
 			}
 			System.out.println();
-			System.out.println();
 		}
-		System.out.println("__________________________________###3###33____");
-		
-	
+
+		int individuosRespostas[][] = new int[individuos.length][individuos[0].length];
+		int ponto[] = new int[individuosRespostas.length / 2];
+		int pontoAux = 0;
+		double prob[] =  new double[individuosRespostas.length / 2];
+		for (int i = 0; i < individuosRespostas.length / 2; i++) {
+			prob[i] = rand.nextDouble();
+			if (prob[i] <= probDoCrossover) {
+				ponto[i] = rand.nextInt(individuos[0].length-1);
+				ponto[i] +=1; 
+				for (int duasVezes = 0; duasVezes < 2; duasVezes++) {
+					pontoAux = 0;
+					for (int j = 0; j < individuosSelecionados[0].length; j++) {
+						if (pontoAux < ponto[i]) {
+							individuosRespostas[i * 2+duasVezes][j] = individuosSelecionados[i * 2 + duasVezes][j];
+						} else {
+							individuosRespostas[i * 2 + (1-duasVezes)][j] = individuosSelecionados[i * 2 + duasVezes][j];
+						}
+						pontoAux++;
+					}
+				}
+
+			} else {
+				individuosRespostas[i * 2] = individuosSelecionados[i * 2];
+				individuosRespostas[i * 2 + 1] = individuosSelecionados[i * 2 + 1];
+			}
+		}
+		for (int i = 0; i < individuosRespostas.length; i++) {
+			System.out.print(" individuo Selecionado --> ");
+			for (int j = 0; j < individuosSelecionados.length; j++) {
+				if(ponto[i/2] == j && prob[i/2] <=probDoCrossover){
+					System.out.print("|");
+				}
+				System.out.print(" "+individuosSelecionados[i][j]);
+			}
+			System.out.print(" individuo Do Pós Crossover --> ");
+			for (int j = 0; j < individuosSelecionados.length; j++) {
+				if(ponto[i/2] == j && prob[i/2] <=probDoCrossover){
+					System.out.print("|");
+				}
+				System.out.print(" "+individuosRespostas[i][j]);
+			}
+			System.out.print(" ponto["+i/2+"] --> "+ ponto[i/2]);
+			System.out.println(" prob ["+i/2+"] --> "+prob[i/2]);
+		}
+		return individuosRespostas;
 	}
 
 	public static void main(String[] args) {
 
 		int numeroDeIndividuo = 10;
-		int numeroBitX = 5;
-		int numeroBitY = 5;
+		int numeroBitXY = 5;
+		//int numeroBitY = 5;
 
-		int individuos[][] = gerandoPopulacao(numeroDeIndividuo, numeroBitX, numeroBitY);
+		int individuos[][] = gerandoPopulacao(numeroDeIndividuo, numeroBitXY, numeroBitXY);
 		System.out.println("             x                                           y");
-		mostra(individuos, numeroBitX);
-		int individuosInteiro[][] = converteBinarioInt(individuos, numeroBitX);
+		mostra(individuos, numeroBitXY);
+		int individuosInteiro[][] = converteBinarioInt(individuos, numeroBitXY);
 		System.out.println();
 		System.out.println("  x       y");
 		mostra(individuosInteiro, 1);
-		double individuosReal[][] = converteIntParaReal(individuosInteiro, 0, 10, 5);
+		double individuosReal[][] = converteIntParaReal(individuosInteiro, 0, 10, numeroBitXY);
 		System.out.println("  x                  y");
-		mostra(individuosReal, 1);
+		mostra(individuosReal);
 		System.out.println("--------------Avaliação da Parada-------------");
 		double[] fitness = fitness(individuosReal);
 		for (int i = 0; i < fitness.length; i++) {
@@ -209,11 +203,6 @@ public class Principal {
 		}
 		int indices[] = selecao(fitness);
 		crossover(individuos, indices, 0.7);
-		/*
-		 * for (int i = 0; i < fitness.length; i++) {
-		 * System.out.print("i--> "+i+" indice --> "+indice[i]+"  individuo["); for (int
-		 * j = 0; j < individuos[0].length; j++) {
-		 * System.out.print(individuos[indice[i]][j]+" "); } System.out.println("]"); }
-		 */ }
+	}
 
 }
