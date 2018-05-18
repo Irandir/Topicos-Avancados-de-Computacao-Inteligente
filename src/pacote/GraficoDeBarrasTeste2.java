@@ -2,7 +2,7 @@ package pacote;
 
 
 import java.awt.Color;
-import java.text.DecimalFormat;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -14,20 +14,18 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import com.orsoncharts.label.StandardCategoryItemLabelGenerator;
-
-public class GraficoDeBarras extends JFrame {
+public class GraficoDeBarrasTeste2 extends JFrame {
 
 
-	public static void mostrar(double v1[],String nome) {
+	public static void mostrar(List<Double> v1,List<String> nome,String nome2) {
 		DefaultCategoryDataset dados = new DefaultCategoryDataset();
+		
+		for (int i = 0; i < v1.size(); i++) {
+			dados.addValue(v1.get(i),nome.get(i),"");
+		}
+		
 
-		dados.addValue(v1[0],"Roleta E Ponto","");
-		dados.addValue(v1[1],"Roleta E Uniforme","");
-		dados.addValue(v1[2],"Torneio E Ponto","");
-		dados.addValue(v1[3],"Torneio E Uniforme","");
-
-		JFreeChart grafico = ChartFactory.createBarChart(nome, "metodo", "Saída", dados, PlotOrientation.VERTICAL,
+		JFreeChart grafico = ChartFactory.createBarChart(nome2, "torneio e uniforme", "Saída", dados, PlotOrientation.VERTICAL,
 				true, true, true);
 		CategoryPlot plot = (CategoryPlot) grafico.getPlot();
 		CategoryItemRenderer itemRerender = plot.getRenderer();
@@ -37,7 +35,7 @@ public class GraficoDeBarras extends JFrame {
 		itemRerender.setSeriesPaint(2, Color.YELLOW);
 		itemRerender.setSeriesPaint(3, Color.green);
 		
-		JFrame frame = new JFrame(nome);
+		JFrame frame = new JFrame();
 		frame.add(new ChartPanel(grafico));
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

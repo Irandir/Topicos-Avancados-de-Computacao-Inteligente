@@ -5,6 +5,7 @@ public class AgoritmoGenetico {
 
 	private double melhoresFitness[];
 	private double fitnessMedio[];
+        
 	private static Random rand = new Random();
 
 	//no construtor
@@ -36,7 +37,7 @@ public class AgoritmoGenetico {
 	}
 
 	public static void mostra(int individuos[][], int numeroBitX) {
-		System.out.println("__________População_________");
+		System.out.println("__________Populaï¿½ï¿½o_________");
 		for (int i = 0; i < individuos.length; i++) {
 			for (int j = 0; j < individuos[0].length; j++) {
 				System.out.print(individuos[i][j] + " ");
@@ -50,7 +51,7 @@ public class AgoritmoGenetico {
 	}
 
 	public static void mostra(double individuos[][]) {
-		System.out.println("__________População_Real_________");
+		System.out.println("__________Populaï¿½ï¿½o_Real_________");
 		for (int i = 0; i < individuos.length; i++) {
 			for (int j = 0; j < individuos[0].length; j++) {
 				System.out.print(individuos[i][j] + " ");
@@ -104,7 +105,7 @@ public class AgoritmoGenetico {
 		for (int i = 0; i < individuosReal.length; i++) {
 
 			fitness[i] = Math.pow(individuosReal[i][0], 2) + Math.pow(individuosReal[i][1], 2);
-			//System.out.println("Função original (4 - x² - y²) -->"+(4-Math.pow(individuosReal[i][0], 2) - Math.pow(individuosReal[i][1], 2)));
+			//System.out.println("Funï¿½ï¿½o original (4 - xï¿½ - yï¿½) -->"+(4-Math.pow(individuosReal[i][0], 2) - Math.pow(individuosReal[i][1], 2)));
 			fitness[i] = 1000 / (1 + Math.abs(fitness[i]));
 
 		}
@@ -191,7 +192,7 @@ public class AgoritmoGenetico {
 		 * individuosSelecionados.length; j++) { if(ponto[i/2] == j && prob[i/2]
 		 * <=probDoCrossover){ System.out.print("|"); }
 		 * System.out.print(" "+individuosSelecionados[i][j]); }
-		 * System.out.print(" individuo Do Pós Crossover --> "); for (int j = 0; j <
+		 * System.out.print(" individuo Do Pï¿½s Crossover --> "); for (int j = 0; j <
 		 * individuosSelecionados.length; j++) { if(ponto[i/2] == j && prob[i/2]
 		 * <=probDoCrossover){ System.out.print("|"); }
 		 * System.out.print(" "+individuosRespostas[i][j]); }
@@ -202,7 +203,7 @@ public class AgoritmoGenetico {
 	}
 
 	public static int[][] multacao(int[][] individuosPosCruzamento, double probDaMultacao) {
-		// System.out.println("__________________________Multação__________________________");
+		// System.out.println("__________________________Multaï¿½ï¿½o__________________________");
 		int[][] individuosMultados = new int[individuosPosCruzamento.length][individuosPosCruzamento[0].length];
 		for (int i = 0; i < individuosMultados.length; i++) {
 			for (int j = 0; j < individuosMultados[0].length; j++) {
